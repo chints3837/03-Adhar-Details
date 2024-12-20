@@ -11,4 +11,8 @@ public interface PersonService {
     Person findPersonByPancardId(String id);
 
     Person updatePersonByAdharcardNo(Long adharId,String personName);
+
+    Person getPersonById(Integer personId);
+
+    Person savePerson(Person person);
 }

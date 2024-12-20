@@ -2,6 +2,7 @@ package com.example.adhardetails.service;
 
 import com.example.adhardetails.entity.Bank;
 import com.example.adhardetails.entity.Person;
+import com.example.adhardetails.exception.UserException;
 import com.example.adhardetails.repository.BankRepository;
 import com.example.adhardetails.repository.PersonRepository;
 import com.example.adhardetails.serviceInterface.BankService;
@@ -23,10 +24,41 @@ public class BankServiceimpl implements BankService {
     private BankRepository bankRepository;
 
 
+    @Override
     public String saveBank(Integer personId,Bank bank){
+
+        String ex;
+
+        try {
+            if(personId==null){
+                ex="Please enter Person id";
+                throw new UserException(ex);
+            } else if (bank.getbBankType()==null) {
+                ex="Please enter Bank type";
+                throw new UserException(ex);
+            } else if (bank.getbBankName()==null) {
+                ex="Please enter Bank name";
+                throw new UserException(ex);
+            } else if (bank.getbAcNo()==null) {
+                ex="Please enter Bank AC no";
+                throw new UserException(ex);
+            }
+        }catch (Exception e){
+            System.out.println("Exception Occured :"+e.toString());
+        }
 
         // fetch person
         Optional<Person> persontemp= personRepository.findById(personId);
+        try{
+            if(persontemp.get()==null){
+                ex="Person not Found !!";
+                throw new Exception(ex);
+            }
+
+        }catch (Exception e){
+            System.out.println("Exception Occured :"+e.toString());
+        }
+
 
         //list of bank
         List<Bank> bankList=new ArrayList<>();
